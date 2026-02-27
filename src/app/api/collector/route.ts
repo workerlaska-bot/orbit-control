@@ -90,9 +90,10 @@ async function handleCron(cronData: any[]) {
   const records = cronData.map(c => ({
     job_id: c.id || c.job_id,
     job_name: c.name || c.job_name,
-    status: c.status,
-    ran_at: c.last_run_at || c.ran_at || new Date().toISOString(),
-    next_run: c.next_run_at || c.next_run || null,
+    agent_id: c.agent_id || c.agentId || 'unknown',
+    status: c.status || 'unknown',
+    ran_at: c.last_run_at || c.ran_at || c.lastRunAt || new Date().toISOString(),
+    next_run: c.next_run_at || c.next_run || c.nextRunAt || null,
     error_message: c.error_message || c.errorMessage || null,
     duration_ms: c.duration_ms || c.durationMs || null,
   }));
