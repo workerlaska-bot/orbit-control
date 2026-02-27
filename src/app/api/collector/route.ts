@@ -65,14 +65,34 @@ async function handleSessions(sessions: any[]) {
 }
 
 async function handleLogs(logs: any[]) {
-  const records = logs.map(l => ({
-    session_id: l.session_id || l.sessionId || null,
-    agent_id: l.agent_id || l.agentId || 'system',
-    level: l.level || 'info',
-    message: l.message,
-    metadata: l.metadata || null,
-    timestamp: l.timestamp || new Date().toISOString(),
-  }));
+  // Deduplicate logs by agent_id + message + timestamp (within 1 second)
+  const seen = new Set<string>();
+  const records = logs
+    .map(l => {
+      const timestamp = l.timestamp || new Date().toISOString();
+      const timeKey = new Date(timestamp).toISOString().slice(0, 19); // Remove milliseconds
+      const key = `${l.agent_id || l.agentId || 'system'}:${l.message}:${timeKey}`;
+      
+      return {
+        key,
+        session_id: l.session_id || l.sessionId || null,
+        agent_id: l.agent_id || l.agentId || 'system',
+        level: l.level || 'info',
+        message: l.message,
+        metadata: l.metadata || null,
+        timestamp: timestamp,
+      };
+    })
+    .filter(r => {
+      if (seen.has(r.key)) return false;
+      seen.add(r.key);
+      return true;
+    })
+    .map(({ key, ...record }) => record); // Remove the key before inserting
+
+  if (records.length === 0) {
+    return NextResponse.json({ success: true, count: 0, note: 'All logs were duplicates' });
+  }
 
   const { error } = await supabase
     .from('agent_logs')

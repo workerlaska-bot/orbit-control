@@ -385,3 +385,829 @@
 ✓ cron: 11
 
 [2026-02-27T17:21:45.498Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:21:55.500Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:22:05.502Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:22:15.502Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:22:25.502Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:22:35.504Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:22:45.505Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:22:55.507Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:23:05.508Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:23:15.510Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:23:25.512Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:23:35.515Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:23:45.517Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:23:55.519Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:24:05.521Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:24:15.523Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:24:25.525Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:24:35.525Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:24:45.527Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:24:55.529Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:25:05.531Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:25:15.534Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:25:25.536Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:25:35.538Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:25:45.540Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:25:55.541Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:26:05.544Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:26:15.545Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:26:25.548Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:26:35.550Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:26:45.550Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:26:55.552Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:27:05.552Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:27:15.554Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:27:25.554Z] Collecting data...
+✓ sessions: 10
+✓ logs: 2
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:27:35.556Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:27:45.556Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:27:55.557Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:28:05.559Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:28:15.560Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:28:25.563Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:28:35.565Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:28:45.568Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:28:55.569Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:29:05.572Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:29:15.574Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:29:25.575Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:29:35.578Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:29:45.580Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:29:55.582Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:30:05.584Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:30:15.586Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:30:25.588Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:30:35.588Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:30:45.590Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:30:55.593Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:31:05.595Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:31:15.597Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:31:25.600Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:31:35.600Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:31:45.601Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:31:55.603Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:32:05.606Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:32:15.608Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:32:25.610Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:32:35.612Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:32:45.614Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:32:55.617Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:33:05.619Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:33:15.620Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:33:25.622Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:33:35.624Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:33:45.626Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:33:55.628Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:34:05.630Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:34:15.632Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:34:25.633Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:34:35.635Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:34:45.638Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:34:55.640Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:35:05.642Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:35:15.644Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:35:25.645Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:35:35.647Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:35:45.649Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:35:55.650Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:36:05.652Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:36:15.652Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:36:25.655Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:36:35.657Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 11
+
+[2026-02-27T17:36:45.659Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 6
+
+[2026-02-27T17:36:55.661Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 6
+
+[2026-02-27T17:37:05.662Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 6
+
+[2026-02-27T17:37:15.663Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 6
+
+[2026-02-27T17:37:25.666Z] Collecting data...
+✓ sessions: 10
+✓ logs: 2
+✓ metrics: 4
+✓ cron: 6
+
+[2026-02-27T17:37:35.668Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 6
+
+[2026-02-27T17:37:45.670Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 6
+
+[2026-02-27T17:37:55.672Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 6
+
+[2026-02-27T17:38:05.675Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 6
+
+[2026-02-27T17:38:15.677Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 6
+
+[2026-02-27T17:38:25.679Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 6
+
+[2026-02-27T17:38:35.682Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 6
+
+[2026-02-27T17:38:45.683Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 6
+
+[2026-02-27T17:38:55.685Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 6
+
+[2026-02-27T17:39:05.687Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 6
+
+[2026-02-27T17:39:15.689Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 6
+
+[2026-02-27T17:39:25.692Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:39:35.694Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:39:45.696Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:39:55.698Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:40:05.700Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:40:15.702Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:40:25.704Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:40:35.706Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:40:45.709Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:40:55.712Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:41:05.714Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:41:15.716Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:41:25.719Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:41:35.721Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:41:45.722Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:41:55.725Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:42:05.726Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:42:15.729Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:42:25.731Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:42:35.732Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:42:45.734Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:42:55.737Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:43:05.739Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:43:15.741Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:43:25.743Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:43:35.746Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:43:45.747Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:43:55.749Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:44:05.751Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:44:15.754Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:44:25.756Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:44:35.759Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:44:45.762Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:44:55.764Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:45:05.767Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:45:15.768Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:45:25.769Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:45:35.771Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:45:45.772Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:45:55.774Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:46:05.776Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:46:15.778Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:46:25.780Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:46:35.781Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:46:45.784Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:46:55.783Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:47:05.786Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:47:15.788Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:47:25.790Z] Collecting data...
+✓ sessions: 10
+✓ logs: 1
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:47:35.792Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:47:45.793Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:47:55.796Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:48:05.798Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:48:15.800Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:48:25.802Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:48:35.804Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:48:45.807Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:48:55.809Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
+
+[2026-02-27T17:49:05.811Z] Collecting data...
+✓ sessions: 10
+✓ metrics: 4
+✓ cron: 7
