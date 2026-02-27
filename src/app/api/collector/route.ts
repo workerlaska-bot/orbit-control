@@ -31,17 +31,25 @@ export async function POST(request: NextRequest) {
 }
 
 async function handleSessions(sessions: any[]) {
-  const records = sessions.map(s => ({
-    session_key: s.key || s.sessionId,
-    agent_id: extractAgentId(s.key || s.sessionId),
-    model: s.model,
-    status: s.status || 'active',
-    tokens_in: s.contextTokens || 0,
-    tokens_out: s.totalTokens || 0,
-    context_tokens: s.contextTokens || 0,
-    started_at: s.startedAt || new Date().toISOString(),
-    last_activity: new Date().toISOString(),
-  }));
+  // Deduplicate by session_key
+  const seen = new Set<string>();
+  const records = sessions
+    .map(s => ({
+      session_key: s.session_key || s.key,
+      agent_id: s.agent_id || extractAgentId(s.key || s.session_key),
+      model: s.model,
+      status: s.status || 'active',
+      tokens_in: s.tokens_in || s.inputTokens || 0,
+      tokens_out: s.tokens_out || s.outputTokens || 0,
+      context_tokens: s.context_tokens || s.contextTokens || 0,
+      started_at: s.started_at || new Date().toISOString(),
+      last_activity: new Date().toISOString(),
+    }))
+    .filter(r => {
+      if (seen.has(r.session_key)) return false;
+      seen.add(r.session_key);
+      return true;
+    });
 
   const { error } = await supabase
     .from('agent_sessions')
