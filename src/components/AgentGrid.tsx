@@ -1,17 +1,30 @@
 "use client";
 
 import { Cpu, Brain, Sparkles, Shield, BarChart3, Rocket, User } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 
-const agents = [
-  { id: "honzik", name: "Orbit", model: "GLM-5-TEE", status: "active", tokens: 145.2, icon: Brain, color: "violet" },
-  { id: "monitor", name: "Monitor", model: "GLM-4.7-TEE", status: "idle", tokens: 89.7, icon: Cpu, color: "cyan" },
-  { id: "evaluator", name: "Evaluator", model: "DeepSeek-V3.2", status: "active", tokens: 42.3, icon: BarChart3, color: "emerald" },
-  { id: "executor", name: "Executor", model: "GLM-4.7-TEE", status: "error", tokens: 0, icon: Rocket, color: "rose" },
-  { id: "strategist", name: "Strategist", model: "DeepSeek-V3.2", status: "idle", tokens: 56.8, icon: Shield, color: "amber" },
-  { id: "kea", name: "Kea", model: "Qwen-3-Coder", status: "active", tokens: 112.4, icon: Sparkles, color: "blue" },
-  { id: "luna", name: "Luna", model: "Hermes-4", status: "active", tokens: 78.9, icon: User, color: "violet" },
-];
+const agentIcons: Record<string, any> = {
+  "honzik": Brain,
+  "orbit": Brain,
+  "monitor": Cpu,
+  "evaluator": BarChart3,
+  "executor": Rocket,
+  "strategist": Shield,
+  "kea": Sparkles,
+  "luna": User,
+};
+
+const agentColors: Record<string, string> = {
+  "honzik": "violet",
+  "orbit": "violet",
+  "monitor": "cyan",
+  "evaluator": "emerald",
+  "executor": "rose",
+  "strategist": "amber",
+  "kea": "blue",
+  "luna": "violet",
+};
 
 const colorMap = {
   violet: "bg-violet-500/20 text-violet-400 border-violet-500/30",
@@ -24,6 +37,56 @@ const colorMap = {
 
 export default function AgentGrid() {
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
+  const [agents, setAgents] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchAgents();
+  }, []);
+
+  async function fetchAgents() {
+    try {
+      const { data: sessions, error } = await supabase
+        .from('agent_sessions')
+        .select('*')
+        .order('last_activity', { ascending: false })
+        .limit(8);
+
+      if (error) throw error;
+
+      // Group by agent_id to get unique agents with latest data
+      const agentMap = new Map();
+      sessions?.forEach(session => {
+        const existing = agentMap.get(session.agent_id);
+        if (!existing || new Date(session.last_activity) > new Date(existing.last_activity)) {
+          agentMap.set(session.agent_id, session);
+        }
+      });
+
+      const uniqueAgents = Array.from(agentMap.values()).map(session => ({
+        id: session.agent_id,
+        name: session.agent_id.charAt(0).toUpperCase() + session.agent_id.slice(1),
+        model: session.model || 'Unknown',
+        status: session.status,
+        tokens: (session.tokens_in / 1000) || 0, // Convert to k tokens
+        icon: agentIcons[session.agent_id] || Cpu,
+        color: agentColors[session.agent_id] || 'violet',
+      }));
+
+      setAgents(uniqueAgents);
+    } catch (error) {
+      console.error('Error fetching agents:', error);
+      // Fallback to mock data if needed
+      const fallbackAgents = [
+        { id: "honzik", name: "Orbit", model: "GLM-5-TEE", status: "active", tokens: 145.2, icon: Brain, color: "violet" },
+        { id: "monitor", name: "Monitor", model: "GLM-4.7-TEE", status: "idle", tokens: 89.7, icon: Cpu, color: "cyan" },
+        { id: "evaluator", name: "Evaluator", model: "DeepSeek-V3.2", status: "active", tokens: 42.3, icon: BarChart3, color: "emerald" },
+      ];
+      setAgents(fallbackAgents);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="animate-fadeIn">
