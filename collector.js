@@ -18,9 +18,9 @@ const INTERVAL_MS = (parseInt(process.env.COLLECTOR_INTERVAL_MINUTES || '5') * 6
 
 async function fetchOpenClawStatus() {
   try {
-    const response = await fetch(`${OPENCLAW_API}/status`);
-    if (!response.ok) throw new Error(`Status ${response.status}`);
-    return await response.json();
+    const { execSync } = require('child_process');
+    const output = execSync('openclaw status --json', { encoding: 'utf8' });
+    return JSON.parse(output);
   } catch (error) {
     console.error('Failed to fetch OpenClaw status:', error.message);
     return null;
@@ -29,9 +29,9 @@ async function fetchOpenClawStatus() {
 
 async function fetchOpenClawCron() {
   try {
-    const response = await fetch(`${OPENCLAW_API}/cron`);
-    if (!response.ok) throw new Error(`Status ${response.status}`);
-    const data = await response.json();
+    const { execSync } = require('child_process');
+    const output = execSync('openclaw cron list --json', { encoding: 'utf8' });
+    const data = JSON.parse(output);
     return data.jobs || [];
   } catch (error) {
     console.error('Failed to fetch OpenClaw cron:', error.message);
@@ -69,19 +69,34 @@ async function collectAndPush() {
   const status = await fetchOpenClawStatus();
   if (status) {
     // Extract sessions from status
-    const sessions = status.sessions || [];
-    if (sessions.length > 0) {
-      await pushToDashboard('sessions', sessions);
+    const sessions = status.sessions?.recent || [];
+    const formattedSessions = sessions.map(s => ({
+      key: s.key,
+      sessionId: s.sessionId,
+      agent_id: s.agentId,
+      model: s.model,
+      status: 'active', // Simplified - could check age, abortedLastRun, etc.
+      tokens_in: s.inputTokens || 0,
+      tokens_out: s.outputTokens || 0,
+      context_tokens: s.contextTokens || 0,
+      started_at: new Date(s.updatedAt).toISOString(),
+      last_activity: new Date().toISOString(),
+    }));
+    
+    if (formattedSessions.length > 0) {
+      await pushToDashboard('sessions', formattedSessions);
     }
     
     // Extract metrics
     const metrics = {
-      contextWindow: status.contextWindow,
-      queueDepth: status.queue?.depth || 0,
-      cacheHitRate: status.cache?.hitRate || 0,
-      activeSessions: status.activeSessionsCount || sessions.length,
-      gatewayStatus: status.gateway?.status || 'unknown',
-      compactions: status.compactions || 0,
+      contextWindow: sessions.length > 0 ? sessions[0].contextTokens : 200000,
+      activeSessions: sessions.length,
+      totalTokens: sessions.reduce((sum, s) => sum + (s.inputTokens || 0), 0),
+      recentActivity: sessions.slice(0, 10).map(s => ({
+        agent: s.agentId,
+        tokens: s.inputTokens || 0,
+        age: s.age || 0,
+      })),
     };
     await pushToDashboard('metrics', metrics);
   }
@@ -89,7 +104,19 @@ async function collectAndPush() {
   // Fetch cron jobs
   const cronJobs = await fetchOpenClawCron();
   if (cronJobs.length > 0) {
-    await pushToDashboard('cron', cronJobs);
+    const formattedCronJobs = cronJobs.map(job => ({
+      id: job.id,
+      name: job.name,
+      agent_id: job.agentId,
+      status: job.state?.lastStatus || 'unknown',
+      last_run_at: job.state?.lastRunAtMs ? new Date(job.state.lastRunAtMs).toISOString() : null,
+      next_run_at: job.state?.nextRunAtMs ? new Date(job.state.nextRunAtMs).toISOString() : null,
+      error_message: job.state?.lastError || null,
+      duration_ms: job.state?.lastDurationMs || null,
+      consecutive_errors: job.state?.consecutiveErrors || 0,
+    }));
+    
+    await pushToDashboard('cron', formattedCronJobs);
   }
   
   console.log('Collection complete.');
