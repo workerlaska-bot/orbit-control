@@ -21,6 +21,8 @@ export async function POST(request: NextRequest) {
         return await handleCron(payload);
       case 'metrics':
         return await handleMetrics(payload);
+      case 'cleanup':
+        return await handleCleanup(payload);
       default:
         return NextResponse.json({ error: 'Unknown type' }, { status: 400 });
     }
@@ -64,8 +66,8 @@ async function handleSessions(sessions: any[]) {
 
 async function handleLogs(logs: any[]) {
   const records = logs.map(l => ({
-    session_id: l.sessionId,
-    agent_id: l.agentId,
+    session_id: l.session_id || l.sessionId || null,
+    agent_id: l.agent_id || l.agentId || 'system',
     level: l.level || 'info',
     message: l.message,
     metadata: l.metadata || null,
@@ -84,19 +86,21 @@ async function handleLogs(logs: any[]) {
 }
 
 async function handleCron(cronData: any[]) {
+  // UPSERT by job_id to prevent duplicates
   const records = cronData.map(c => ({
+    job_id: c.id || c.job_id,
     job_name: c.name || c.job_name,
-    job_id: c.id,
     status: c.status,
-    ran_at: c.lastRun || new Date().toISOString(),
-    next_run: c.nextRun,
-    error_message: c.errorMessage,
-    duration_ms: c.durationMs,
+    ran_at: c.last_run_at || c.ran_at || new Date().toISOString(),
+    next_run: c.next_run_at || c.next_run || null,
+    error_message: c.error_message || c.errorMessage || null,
+    duration_ms: c.duration_ms || c.durationMs || null,
   }));
 
+  // Use upsert on job_id to update existing jobs
   const { error } = await supabase
     .from('cron_runs')
-    .insert(records);
+    .upsert(records, { onConflict: 'job_id' });
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -106,21 +110,63 @@ async function handleCron(cronData: any[]) {
 }
 
 async function handleMetrics(metrics: any) {
+  // UPSERT by metric_name to prevent duplicates
   const records = Object.entries(metrics).map(([name, value]) => ({
     metric_name: name,
     value: typeof value === 'object' ? value : { value },
     recorded_at: new Date().toISOString(),
   }));
 
+  // Use upsert on metric_name to update existing metrics
   const { error } = await supabase
     .from('system_metrics')
-    .insert(records);
+    .upsert(records, { onConflict: 'metric_name' });
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
   return NextResponse.json({ success: true, count: records.length });
+}
+
+async function handleCleanup(params: { retentionDays?: number }) {
+  const retentionDays = params.retentionDays || 7;
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - retentionDays);
+  const cutoffIso = cutoffDate.toISOString();
+
+  const results = {
+    agent_logs: 0,
+    agent_sessions: 0,
+  };
+
+  // Delete old logs (keep for retention period)
+  const { data: deletedLogs, error: logError } = await supabase
+    .from('agent_logs')
+    .delete()
+    .lt('timestamp', cutoffIso)
+    .select('id');
+
+  if (!logError && deletedLogs) {
+    results.agent_logs = deletedLogs.length;
+  }
+
+  // Delete old sessions (keep for retention period)
+  const { data: deletedSessions, error: sessionError } = await supabase
+    .from('agent_sessions')
+    .delete()
+    .lt('last_activity', cutoffIso)
+    .select('id');
+
+  if (!sessionError && deletedSessions) {
+    results.agent_sessions = deletedSessions.length;
+  }
+
+  return NextResponse.json({ 
+    success: true, 
+    deleted: results,
+    cutoffDate: cutoffIso 
+  });
 }
 
 function extractAgentId(sessionKey: string): string {
