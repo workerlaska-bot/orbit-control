@@ -1,29 +1,104 @@
 "use client";
 
-import { TrendingUp, TrendingDown, Activity } from "lucide-react";
+import { TrendingUp, Activity } from "lucide-react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 
-const tokenData = [
-  { agent: "Orbit", input: 145.2, output: 12.3, color: "#a78bfa" },
-  { agent: "Monitor", input: 89.7, output: 8.9, color: "#22d3ee" },
-  { agent: "Evaluator", input: 42.3, output: 5.2, color: "#34d399" },
-  { agent: "Kea", input: 112.4, output: 9.8, color: "#60a5fa" },
-  { agent: "Luna", input: 78.9, output: 7.1, color: "#fbbf24" },
-  { agent: "Strategist", input: 56.8, output: 4.3, color: "#fb7185" },
-];
+type AgentToken = {
+  agent_id: string;
+  tokens_in: number;
+  tokens_out: number;
+};
 
-const hourlyData = [
-  { hour: "00:00", tokens: 45 },
-  { hour: "04:00", tokens: 32 },
-  { hour: "08:00", tokens: 89 },
-  { hour: "12:00", tokens: 124 },
-  { hour: "16:00", tokens: 98 },
-  { hour: "20:00", tokens: 156 },
-];
+type Session = {
+  agent_id: string;
+  tokens_in: number;
+  tokens_out: number;
+  last_activity: string;
+};
 
 export default function TokenUsage() {
-  const totalInput = tokenData.reduce((sum, d) => sum + d.input, 0);
-  const totalOutput = tokenData.reduce((sum, d) => sum + d.output, 0);
+  const [tokenData, setTokenData] = useState<AgentToken[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [totalInput, setTotalInput] = useState(0);
+  const [totalOutput, setTotalOutput] = useState(0);
+
+  useEffect(() => {
+    fetchTokenData();
+  }, []);
+
+  async function fetchTokenData() {
+    try {
+      const { data: sessions, error } = await supabase
+        .from('agent_sessions')
+        .select('agent_id, tokens_in, tokens_out, last_activity')
+        .order('last_activity', { ascending: false });
+
+      if (error) throw error;
+
+      // Aggregate by agent_id
+      const agentMap = new Map<string, AgentToken>();
+      sessions?.forEach((s: Session) => {
+        const existing = agentMap.get(s.agent_id);
+        if (existing) {
+          existing.tokens_in += s.tokens_in || 0;
+          existing.tokens_out += s.tokens_out || 0;
+        } else {
+          agentMap.set(s.agent_id, {
+            agent_id: s.agent_id,
+            tokens_in: s.tokens_in || 0,
+            tokens_out: s.tokens_out || 0,
+          });
+        }
+      });
+
+      const data = Array.from(agentMap.values());
+      setTokenData(data);
+      setTotalInput(data.reduce((sum, d) => sum + d.tokens_in, 0));
+      setTotalOutput(data.reduce((sum, d) => sum + d.tokens_out, 0));
+    } catch (error) {
+      console.error('Error fetching token data:', error);
+      // Fallback mock data
+      setTokenData([
+        { agent_id: "honzik", tokens_in: 145200, tokens_out: 12300 },
+        { agent_id: "monitor", tokens_in: 89700, tokens_out: 8900 },
+      ]);
+      setTotalInput(234900);
+      setTotalOutput(21200);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const hourlyData = [
+    { hour: "00:00", tokens: 45 },
+    { hour: "04:00", tokens: 32 },
+    { hour: "08:00", tokens: 89 },
+    { hour: "12:00", tokens: 124 },
+    { hour: "16:00", tokens: 98 },
+    { hour: "20:00", tokens: 156 },
+  ];
+
   const maxTokens = Math.max(...hourlyData.map(d => d.tokens));
+
+  const agentColors: Record<string, string> = {
+    "honzik": "#a78bfa",
+    "orbit": "#a78bfa",
+    "monitor": "#22d3ee",
+    "evaluator": "#34d399",
+    "executor": "#fb7185",
+    "strategist": "#fbbf24",
+    "kea": "#60a5fa",
+    "luna": "#a78bfa",
+  };
+
+  if (loading) {
+    return (
+      <div className="animate-fadeIn flex items-center justify-center h-64">
+        <div className="text-zinc-400">Loading token data...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="animate-fadeIn">
@@ -35,10 +110,10 @@ export default function TokenUsage() {
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2 text-emerald-400">
             <TrendingUp className="w-4 h-4" />
-            <span className="text-sm font-medium">+12.4%</span>
+            <span className="text-sm font-medium">Live</span>
           </div>
           <div className="text-sm text-zinc-400">
-            Last 24h
+            {(totalInput + totalOutput) > 0 ? 'Active' : 'No data'}
           </div>
         </div>
       </div>
@@ -47,18 +122,21 @@ export default function TokenUsage() {
       <div className="grid grid-cols-3 gap-4 mb-6">
         <div className="p-4 rounded-lg bg-zinc-900/50 border border-zinc-800">
           <div className="text-zinc-400 text-sm mb-1">Input Tokens</div>
-          <div className="text-2xl font-bold text-white">{totalInput.toFixed(1)}k</div>
-          <div className="text-xs text-emerald-400 mt-1">+8.2% from yesterday</div>
+          <div className="text-2xl font-bold text-white">
+            {(totalInput / 1000).toFixed(1)}k
+          </div>
         </div>
         <div className="p-4 rounded-lg bg-zinc-900/50 border border-zinc-800">
           <div className="text-zinc-400 text-sm mb-1">Output Tokens</div>
-          <div className="text-2xl font-bold text-white">{totalOutput.toFixed(1)}k</div>
-          <div className="text-xs text-cyan-400 mt-1">+5.7% from yesterday</div>
+          <div className="text-2xl font-bold text-white">
+            {(totalOutput / 1000).toFixed(1)}k
+          </div>
         </div>
         <div className="p-4 rounded-lg bg-zinc-900/50 border border-zinc-800">
           <div className="text-zinc-400 text-sm mb-1">Total</div>
-          <div className="text-2xl font-bold gradient-text">{(totalInput + totalOutput).toFixed(1)}k</div>
-          <div className="text-xs text-violet-400 mt-1">+7.1% from yesterday</div>
+          <div className="text-2xl font-bold gradient-text">
+            {((totalInput + totalOutput) / 1000).toFixed(1)}k
+          </div>
         </div>
       </div>
 
@@ -86,32 +164,34 @@ export default function TokenUsage() {
       <div>
         <div className="text-sm text-zinc-400 mb-3">By Agent</div>
         <div className="space-y-3">
-          {tokenData.map((agent, i) => (
-            <div key={i} className="flex items-center gap-3">
-              <div className="w-24 text-sm font-medium truncate">{agent.agent}</div>
-              <div className="flex-1 h-6 bg-zinc-900 rounded-full overflow-hidden flex">
-                <div
-                  className="h-full transition-all duration-500"
-                  style={{
-                    width: `${(agent.input / totalInput) * 100}%`,
-                    background: agent.color,
-                    opacity: 0.8
-                  }}
-                />
-                <div
-                  className="h-full transition-all duration-500"
-                  style={{
-                    width: `${(agent.output / totalOutput) * 50}%`,
-                    background: agent.color,
-                    opacity: 0.4
-                  }}
-                />
+          {tokenData.map((agent, i) => {
+            const color = agentColors[agent.agent_id] || "#a78bfa";
+            const total = agent.tokens_in + agent.tokens_out;
+            const percent = totalInput > 0 ? (agent.tokens_in / totalInput) * 100 : 0;
+            
+            return (
+              <div key={i} className="flex items-center gap-3">
+                <div className="w-24 text-sm font-medium truncate capitalize">
+                  {agent.agent_id}
+                </div>
+                <div className="flex-1 h-6 bg-zinc-900 rounded-full overflow-hidden flex">
+                  <div
+                    className="h-full transition-all duration-500"
+                    style={{
+                      width: `${percent}%`,
+                      background: color,
+                      opacity: 0.8
+                    }}
+                  />
+                </div>
+                <div className="w-20 text-right text-sm">
+                  <span className="text-white font-medium">
+                    {(total / 1000).toFixed(1)}k
+                  </span>
+                </div>
               </div>
-              <div className="w-20 text-right text-sm">
-                <span className="text-white font-medium">{(agent.input + agent.output).toFixed(1)}k</span>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

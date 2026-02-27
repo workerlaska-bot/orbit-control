@@ -2,39 +2,67 @@
 
 import { useState, useEffect } from "react";
 import { Terminal, Filter, Search, Pause, Play } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 type LogEntry = {
   id: string;
+  session_id: string | null;
+  agent_id: string;
+  level: string;
+  message: string | null;
+  metadata: any;
   timestamp: string;
-  agent: string;
-  level: "info" | "warn" | "error";
-  message: string;
 };
 
-const mockLogs: LogEntry[] = [
-  { id: "1", timestamp: "09:45:23", agent: "monitor", level: "info", message: "Scanning leaderboard for qualified traders..." },
-  { id: "2", timestamp: "09:45:24", agent: "monitor", level: "info", message: "Found 2 traders with >55% win rate" },
-  { id: "3", timestamp: "09:45:25", agent: "evaluator", level: "info", message: "Evaluating signal sig_20260227_043838" },
-  { id: "4", timestamp: "09:45:26", agent: "evaluator", level: "warn", message: "Price 0.88 requires >88% WR for +EV, trader has 56%" },
-  { id: "5", timestamp: "09:45:27", agent: "evaluator", level: "info", message: "Signal REJECTED - negative EV: -$0.96" },
-  { id: "6", timestamp: "09:46:01", agent: "honzik", level: "info", message: "Session resumed, context loaded from memory" },
-  { id: "7", timestamp: "09:46:15", agent: "kea", level: "info", message: "Task spawned: code review for orbit-control" },
-  { id: "8", timestamp: "09:47:00", agent: "executor", level: "error", message: "No approved signals pending execution" },
-  { id: "9", timestamp: "09:48:22", agent: "strategist", level: "info", message: "Daily summary generated: 0 trades, 0 PnL" },
-  { id: "10", timestamp: "09:49:01", agent: "monitor", level: "info", message: "Cron scan completed, next run in 5 minutes" },
-];
-
 export default function LiveLogs() {
-  const [logs, setLogs] = useState<LogEntry[]>(mockLogs);
+  const [logs, setLogs] = useState<LogEntry[]>([]);
   const [filter, setFilter] = useState<string>("all");
   const [search, setSearch] = useState("");
   const [isPaused, setIsPaused] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchLogs();
+    const interval = setInterval(() => {
+      if (!isPaused) {
+        fetchLogs();
+      }
+    }, 10000); // Refresh every 10s
+    return () => clearInterval(interval);
+  }, []);
+
+  async function fetchLogs() {
+    try {
+      const { data, error } = await supabase
+        .from('agent_logs')
+        .select('*')
+        .order('timestamp', { ascending: false })
+        .limit(50);
+
+      if (error) throw error;
+      setLogs(data || []);
+    } catch (error) {
+      console.error('Error fetching logs:', error);
+      // Fallback mock data
+      setLogs([
+        { id: "1", session_id: null, agent_id: "monitor", level: "info", message: "Failed to fetch logs, using mock data", metadata: {}, timestamp: new Date().toISOString() },
+        { id: "2", session_id: null, agent_id: "system", level: "warn", message: "Connection to Supabase failed", metadata: {}, timestamp: new Date().toISOString() },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const filteredLogs = logs.filter(log => {
     if (filter !== "all" && log.level !== filter) return false;
-    if (search && !log.message.toLowerCase().includes(search.toLowerCase())) return false;
+    if (search && !log.message?.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
   });
+
+  function formatTime(timestamp: string): string {
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  }
 
   return (
     <div className="animate-fadeIn">
@@ -94,31 +122,35 @@ export default function LiveLogs() {
       {/* Log viewer */}
       <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg overflow-hidden">
         <div className="max-h-64 overflow-y-auto p-3 font-mono text-sm">
-          {filteredLogs.map((log) => (
-            <div
-              key={log.id}
-              className={`log-entry ${
-                log.level === "error" ? "log-error" :
-                log.level === "warn" ? "log-warn" : "log-info"
-              }`}
-            >
-              <span className="text-zinc-500 mr-3">{log.timestamp}</span>
-              <span className="text-zinc-400 mr-3">[{log.agent}]</span>
-              <span className="text-zinc-300">{log.message}</span>
+          {loading ? (
+            <div className="text-center text-zinc-500 py-8">
+              Loading logs...
             </div>
-          ))}
-          
-          {filteredLogs.length === 0 && (
+          ) : filteredLogs.length === 0 ? (
             <div className="text-center text-zinc-500 py-8">
               No logs matching your filters
             </div>
+          ) : (
+            filteredLogs.map((log) => (
+              <div
+                key={log.id}
+                className={`log-entry ${
+                  log.level === "error" ? "log-error" :
+                  log.level === "warn" ? "log-warn" : "log-info"
+                }`}
+              >
+                <span className="text-zinc-500 mr-3">{formatTime(log.timestamp)}</span>
+                <span className="text-zinc-400 mr-3">[{log.agent_id}]</span>
+                <span className="text-zinc-300">{log.message}</span>
+              </div>
+            ))
           )}
         </div>
         
         <div className="border-t border-zinc-800 px-3 py-2 flex items-center justify-between text-xs text-zinc-500">
           <span>{filteredLogs.length} entries</span>
           <span className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <div className={`w-2 h-2 rounded-full ${isPaused ? 'bg-amber-400' : 'bg-emerald-400 animate-pulse'}`} />
             {isPaused ? "Paused" : "Live"}
           </span>
         </div>
