@@ -71,16 +71,12 @@ export default function TokenUsage() {
     }
   }
 
-  const hourlyData = [
-    { hour: "00:00", tokens: 45 },
-    { hour: "04:00", tokens: 32 },
-    { hour: "08:00", tokens: 89 },
-    { hour: "12:00", tokens: 124 },
-    { hour: "16:00", tokens: 98 },
-    { hour: "20:00", tokens: 156 },
-  ];
+  // Show actual token distribution - one bar for total if no hourly data
+  const hourlyData = tokenData.length > 0 
+    ? [{ hour: "Total", tokens: totalInput + totalOutput }]
+    : [];
 
-  const maxTokens = Math.max(...hourlyData.map(d => d.tokens));
+  const maxTokens = Math.max(...hourlyData.map(d => d.tokens), 1);
 
   const agentColors: Record<string, string> = {
     "honzik": "#a78bfa",

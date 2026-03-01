@@ -68,15 +68,19 @@ export default function AgentGrid() {
         }
       });
 
-      const uniqueAgents = Array.from(agentMap.values()).map(session => ({
-        id: session.agent_id,
-        name: session.agent_id.charAt(0).toUpperCase() + session.agent_id.slice(1),
-        model: session.model || 'Unknown',
-        status: session.status,
-        tokens: (session.tokens_in / 1000) || 0, // Convert to k tokens
-        icon: agentIcons[session.agent_id] || Cpu,
-        color: agentColors[session.agent_id] || 'violet',
-      }));
+      const uniqueAgents = Array.from(agentMap.values())
+        .filter(session => session.tokens_in > 0) // Filter out 0 tokens
+        .map(session => ({
+          id: session.agent_id,
+          name: session.agent_id?.charAt(0).toUpperCase() + session.agent_id?.slice(1) || 'Unknown',
+          model: session.model || 'Unknown',
+          status: session.status,
+          tokens: (session.tokens_in / 1000) || 0,
+          context: session.context_tokens || 0,
+          contextMax: session.context_max || 200000,
+          icon: agentIcons[session.agent_id] || Cpu,
+          color: agentColors[session.agent_id] || 'violet',
+        }));
 
       setAgents(uniqueAgents);
     } catch (error) {
@@ -127,6 +131,9 @@ export default function AgentGrid() {
               <div className="mb-2">
                 <div className="font-bold text-lg">{agent.name}</div>
                 <div className="text-xs text-zinc-400 truncate">{agent.model}</div>
+                <div className="text-xs text-zinc-500 mt-1">
+                  Context: {(agent.context / 1000).toFixed(0)}k / {(agent.contextMax / 1000).toFixed(0)}k
+                </div>
               </div>
               
               <div className="flex items-center justify-between text-sm">
@@ -135,13 +142,6 @@ export default function AgentGrid() {
                   <span className="font-medium text-white">
                     {agent.tokens.toFixed(1)}k
                   </span>
-                </div>
-                <div className={`px-2 py-1 rounded text-xs font-medium ${
-                  agent.status === "active" ? "bg-emerald-500/20 text-emerald-400" :
-                  agent.status === "idle" ? "bg-amber-500/20 text-amber-400" :
-                  "bg-rose-500/20 text-rose-400"
-                }`}>
-                  {agent.status.toUpperCase()}
                 </div>
               </div>
             </div>

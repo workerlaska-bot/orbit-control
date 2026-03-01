@@ -49,17 +49,7 @@ export default function SystemStats() {
   const metricDisplay: Record<string, { name: string; value: string; percent: number; icon: string; color: string }> = {};
   
   metrics.forEach(m => {
-    if (m.metric_name === "contextWindow") {
-      const current = m.value.current || 0;
-      const max = m.value.max || 200000;
-      metricDisplay["contextWindow"] = {
-        name: "Context Window",
-        value: `${(current/1000).toFixed(0)}k / ${(max/1000).toFixed(0)}k`,
-        percent: (current / max) * 100,
-        icon: "Database",
-        color: "violet"
-      };
-    } else if (m.metric_name === "queueDepth") {
+    if (m.metric_name === "queueDepth") {
       metricDisplay["queueDepth"] = {
         name: "Queue Depth",
         value: String(m.value.value || 0),

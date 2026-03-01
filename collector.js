@@ -81,6 +81,7 @@ async function collectAndPush() {
       tokens_in: s.inputTokens || 0,
       tokens_out: s.outputTokens || 0,
       context_tokens: s.contextTokens || 0,
+      context_max: contextTokens,
       started_at: new Date(s.updatedAt).toISOString(),
       last_activity: new Date().toISOString(),
     }));
