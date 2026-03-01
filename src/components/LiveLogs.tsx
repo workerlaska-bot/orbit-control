@@ -50,11 +50,7 @@ export default function LiveLogs() {
       setLogs(data || []);
     } catch (error) {
       console.error('Error fetching logs:', error);
-      // Fallback mock data
-      setLogs([
-        { id: "1", session_id: null, agent_id: "monitor", level: "info", message: "Failed to fetch logs, using mock data", metadata: {}, timestamp: new Date().toISOString() },
-        { id: "2", session_id: null, agent_id: "system", level: "warn", message: "Connection to Supabase failed", metadata: {}, timestamp: new Date().toISOString() },
-      ]);
+      setLogs([]); // No fallback mock data
     } finally {
       setLoading(false);
     }

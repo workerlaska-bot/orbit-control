@@ -39,15 +39,7 @@ export default function SystemStats() {
       setMetrics(data || []);
     } catch (error) {
       console.error('Error fetching metrics:', error);
-      // Fallback mock data
-      setMetrics([
-        { id: "1", metric_name: "contextWindow", value: { current: 84000, max: 164000 }, recorded_at: new Date().toISOString() },
-        { id: "2", metric_name: "queueDepth", value: { value: 0 }, recorded_at: new Date().toISOString() },
-        { id: "3", metric_name: "cacheHitRate", value: { value: 22 }, recorded_at: new Date().toISOString() },
-        { id: "4", metric_name: "activeSessions", value: { value: 2 }, recorded_at: new Date().toISOString() },
-        { id: "5", metric_name: "gatewayStatus", value: { status: "connected" }, recorded_at: new Date().toISOString() },
-        { id: "6", metric_name: "compactions", value: { value: 0 }, recorded_at: new Date().toISOString() },
-      ]);
+      setMetrics([]); // No fallback mock data
     } finally {
       setLoading(false);
     }

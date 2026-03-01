@@ -63,13 +63,9 @@ export default function TokenUsage() {
       setTotalOutput(data.reduce((sum, d) => sum + d.tokens_out, 0));
     } catch (error) {
       console.error('Error fetching token data:', error);
-      // Fallback mock data
-      setTokenData([
-        { agent_id: "honzik", tokens_in: 145200, tokens_out: 12300 },
-        { agent_id: "monitor", tokens_in: 89700, tokens_out: 8900 },
-      ]);
-      setTotalInput(234900);
-      setTotalOutput(21200);
+      setTokenData([]); // No fallback mock data
+      setTotalInput(0);
+      setTotalOutput(0);
     } finally {
       setLoading(false);
     }

@@ -87,7 +87,7 @@ export default function AgentGrid() {
         { id: "monitor", name: "Monitor", model: "GLM-4.7-TEE", status: "idle", tokens: 89.7, icon: Cpu, color: "cyan" },
         { id: "evaluator", name: "Evaluator", model: "DeepSeek-V3.2", status: "active", tokens: 42.3, icon: BarChart3, color: "emerald" },
       ];
-      setAgents(fallbackAgents);
+      setAgents([]);
     } finally {
       setLoading(false);
     }

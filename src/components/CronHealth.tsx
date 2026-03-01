@@ -29,6 +29,7 @@ export default function CronHealth() {
   }, []);
 
   async function fetchCronData() {
+    setLoading(true);
     try {
       const { data, error } = await supabase
         .from('cron_runs')
@@ -40,11 +41,7 @@ export default function CronHealth() {
       setCronJobs(data || []);
     } catch (error) {
       console.error('Error fetching cron data:', error);
-      // Fallback mock data
-      setCronJobs([
-        { id: "1", name: "monitor-scan", agent_id: "monitor", status: "ok", last_run_at: new Date().toISOString(), next_run_at: null, error_message: null, duration_ms: 5000 },
-        { id: "2", name: "strategist-hourly", agent_id: "strategist", status: "error", last_run_at: new Date().toISOString(), next_run_at: null, error_message: "timeout", duration_ms: 60000 },
-      ]);
+      setCronJobs([]); // No fallback mock data
     } finally {
       setLoading(false);
     }
