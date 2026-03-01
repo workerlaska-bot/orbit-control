@@ -95,7 +95,7 @@ export default function AgentGrid() {
           <p className="text-zinc-400 text-sm mt-1">Live status of all active agents</p>
         </div>
         <div className="text-sm text-zinc-400">
-          Total <span className="text-white font-medium">7</span> agents
+          Total <span className="text-white font-medium">{agents.length}</span> agents
         </div>
       </div>
       
