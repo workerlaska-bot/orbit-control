@@ -81,13 +81,7 @@ export default function AgentGrid() {
       setAgents(uniqueAgents);
     } catch (error) {
       console.error('Error fetching agents:', error);
-      // Fallback to mock data if needed
-      const fallbackAgents = [
-        { id: "honzik", name: "Orbit", model: "GLM-5-TEE", status: "active", tokens: 145.2, icon: Brain, color: "violet" },
-        { id: "monitor", name: "Monitor", model: "GLM-4.7-TEE", status: "idle", tokens: 89.7, icon: Cpu, color: "cyan" },
-        { id: "evaluator", name: "Evaluator", model: "DeepSeek-V3.2", status: "active", tokens: 42.3, icon: BarChart3, color: "emerald" },
-      ];
-      setAgents([]);
+      setAgents([]); // No fallback mock data
     } finally {
       setLoading(false);
     }
