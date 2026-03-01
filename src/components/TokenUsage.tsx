@@ -24,6 +24,12 @@ export default function TokenUsage() {
   const [totalOutput, setTotalOutput] = useState(0);
 
   useEffect(() => {
+    const handleRefresh = () => fetchTokenData();
+    window.addEventListener('orbit-control-refresh', handleRefresh);
+    return () => window.removeEventListener('orbit-control-refresh', handleRefresh);
+  }, []);
+
+  useEffect(() => {
     fetchTokenData();
   }, []);
 

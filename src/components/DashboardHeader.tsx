@@ -1,8 +1,25 @@
 "use client";
 
-import { Activity, Cpu, Database, Zap } from "lucide-react";
+import { Activity, Cpu, Database, Zap, RefreshCw } from "lucide-react";
+import { useState } from "react";
 
 export default function DashboardHeader() {
+  const [refreshing, setRefreshing] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<string>("Never");
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    
+    // Trigger a refresh event that child components can listen to
+    // We'll dispatch a custom event that other components can listen to
+    window.dispatchEvent(new CustomEvent('orbit-control-refresh'));
+    
+    // Also update the timestamp
+    setLastUpdated(new Date().toLocaleTimeString());
+    
+    setTimeout(() => setRefreshing(false), 1000);
+  };
+
   return (
     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
       <div>
@@ -38,9 +55,13 @@ export default function DashboardHeader() {
           <span className="text-sm font-medium">Synced</span>
         </div>
         
-        <button className="btn btn-primary flex items-center gap-2">
-          <Zap className="w-4 h-4" />
-          Refresh
+        <button 
+          onClick={handleRefresh}
+          disabled={refreshing}
+          className="btn btn-primary flex items-center gap-2"
+        >
+          <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
+          {refreshing ? 'Refreshing...' : 'Refresh'}
         </button>
       </div>
     </div>

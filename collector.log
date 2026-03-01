@@ -4005,3 +4005,9 @@ Bind: loopback
 ✓ sessions: 10
 ✓ metrics: 4
 ✓ cron: 2
+
+[2026-03-01T12:20:10.990Z] Collecting...
+✓ sessions: 10
+✓ metrics: 2
+✓ cron: 2
+Done.

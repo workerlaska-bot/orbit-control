@@ -20,6 +20,18 @@ export default function CronHealth() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const handleRefresh = () => {
+      const fname=$(basename "$file" .tsx);
+      if [ "$fname" = "CronHealth" ]; then fetchCronData();
+      elif [ "$fname" = "LiveLogs" ]; then fetchLogs();
+      elif [ "$fname" = "SystemStats" ]; then fetchMetrics();
+      fi
+    };
+    window.addEventListener('orbit-control-refresh', handleRefresh);
+    return () => window.removeEventListener('orbit-control-refresh', handleRefresh);
+  }, []);
+
+  useEffect(() => {
     fetchCronData();
   }, []);
 
