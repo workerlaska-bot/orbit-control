@@ -22,25 +22,20 @@ export default function LiveLogs() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const handleRefresh = () => {
-      const fname=$(basename "$file" .tsx);
-      if [ "$fname" = "CronHealth" ]; then fetchCronData();
-      elif [ "$fname" = "LiveLogs" ]; then fetchLogs();
-      elif [ "$fname" = "SystemStats" ]; then fetchMetrics();
-      fi
-    };
-    window.addEventListener('orbit-control-refresh', handleRefresh);
-    return () => window.removeEventListener('orbit-control-refresh', handleRefresh);
-  }, []);
-
-  useEffect(() => {
     fetchLogs();
     const interval = setInterval(() => {
       if (!isPaused) {
         fetchLogs();
       }
     }, 10000); // Refresh every 10s
-    return () => clearInterval(interval);
+    
+    // Listen for manual refresh button clicks
+    const handleRefresh = () => fetchLogs();
+    window.addEventListener('orbit-control-refresh', handleRefresh);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('orbit-control-refresh', handleRefresh);
+    };
   }, []);
 
   async function fetchLogs() {

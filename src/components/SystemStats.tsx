@@ -15,21 +15,16 @@ export default function SystemStats() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const handleRefresh = () => {
-      const fname=$(basename "$file" .tsx);
-      if [ "$fname" = "CronHealth" ]; then fetchCronData();
-      elif [ "$fname" = "LiveLogs" ]; then fetchLogs();
-      elif [ "$fname" = "SystemStats" ]; then fetchMetrics();
-      fi
-    };
-    window.addEventListener('orbit-control-refresh', handleRefresh);
-    return () => window.removeEventListener('orbit-control-refresh', handleRefresh);
-  }, []);
-
-  useEffect(() => {
     fetchMetrics();
     const interval = setInterval(fetchMetrics, 30000); // Refresh every 30s
-    return () => clearInterval(interval);
+    
+    // Listen for manual refresh button clicks
+    const handleRefresh = () => fetchMetrics();
+    window.addEventListener('orbit-control-refresh', handleRefresh);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('orbit-control-refresh', handleRefresh);
+    };
   }, []);
 
   async function fetchMetrics() {

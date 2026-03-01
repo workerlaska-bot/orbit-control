@@ -5,18 +5,15 @@ import { useState } from "react";
 
 export default function DashboardHeader() {
   const [refreshing, setRefreshing] = useState(false);
-  const [lastUpdated, setLastUpdated] = useState<string>("Never");
 
-  const handleRefresh = async () => {
+  const handleRefresh = () => {
+    if (refreshing) return;
     setRefreshing(true);
     
-    // Trigger a refresh event that child components can listen to
-    // We'll dispatch a custom event that other components can listen to
+    // Dispatch event to all listening components
     window.dispatchEvent(new CustomEvent('orbit-control-refresh'));
     
-    // Also update the timestamp
-    setLastUpdated(new Date().toLocaleTimeString());
-    
+    // Reset after a short delay
     setTimeout(() => setRefreshing(false), 1000);
   };
 
@@ -32,7 +29,7 @@ export default function DashboardHeader() {
               <span className="gradient-text">Orbit Control</span>
             </h1>
             <p className="text-zinc-400 mt-1">
-              Real-time monitoring dashboard for OpenClaw agents
+              Click Refresh to fetch latest data from Supabase
             </p>
           </div>
         </div>
@@ -41,18 +38,7 @@ export default function DashboardHeader() {
       <div className="flex flex-wrap gap-3">
         <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-900 border border-zinc-800">
           <Activity className="w-4 h-4 text-emerald-400" />
-          <span className="text-sm font-medium">Live</span>
-          <div className="status-dot status-active"></div>
-        </div>
-        
-        <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-900 border border-zinc-800">
-          <Cpu className="w-4 h-4 text-cyan-400" />
-          <span className="text-sm font-medium">7 Agents</span>
-        </div>
-        
-        <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-900 border border-zinc-800">
-          <Database className="w-4 h-4 text-violet-400" />
-          <span className="text-sm font-medium">Synced</span>
+          <span className="text-sm font-medium">Dashboard</span>
         </div>
         
         <button 
