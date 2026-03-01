@@ -102,17 +102,10 @@ export default function SystemStats() {
     }
   });
 
-  // If no metrics from DB, use defaults
+  // If no metrics from DB, show empty state
   const displayMetrics = Object.keys(metricDisplay).length > 0 
     ? Object.values(metricDisplay)
-    : [
-        { name: "Context Window", value: "84k / 164k", percent: 51, icon: "Database", color: "violet" },
-        { name: "Queue Depth", value: "0", percent: 0, icon: "Cpu", color: "emerald" },
-        { name: "Cache Hit Rate", value: "22%", percent: 22, icon: "HardDrive", color: "cyan" },
-        { name: "Active Sessions", value: "2", percent: 20, icon: "Server", color: "amber" },
-        { name: "Gateway Status", value: "Connected", percent: 100, icon: "Wifi", color: "emerald" },
-        { name: "Compactions", value: "0", percent: 0, icon: "Zap", color: "violet" },
-      ];
+    : [];
 
   const colorClasses: Record<string, string> = {
     violet: "from-violet-500 to-violet-600",
