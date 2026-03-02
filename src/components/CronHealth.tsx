@@ -24,7 +24,6 @@ export default function CronHealth() {
   useEffect(() => {
     fetchScheduledJobs();
     
-    // Listen for manual refresh button clicks
     const handleRefresh = () => fetchScheduledJobs();
     window.addEventListener('orbit-control-refresh', handleRefresh);
     return () => window.removeEventListener('orbit-control-refresh', handleRefresh);
@@ -41,7 +40,6 @@ export default function CronHealth() {
 
       if (error) throw error;
       
-      // Add source field based on job_id prefix
       const jobsWithSource = (data || []).map(j => ({
         ...j,
         source: j.job_id.startsWith('launchd:') ? 'launchd' as const : 'cron' as const,
@@ -50,7 +48,7 @@ export default function CronHealth() {
       setJobs(jobsWithSource);
     } catch (error) {
       console.error('Error fetching scheduled jobs:', error);
-      setJobs([]); // No fallback mock data
+      setJobs([]);
     } finally {
       setLoading(false);
     }
@@ -59,7 +57,7 @@ export default function CronHealth() {
   const cronJobs = jobs.filter(j => j.source === 'cron');
   const launchdJobs = jobs.filter(j => j.source === 'launchd');
   const successCount = jobs.filter(j => j.status === 'ok' || j.status === 'success' || j.status === 'running').length;
-  const errorCount = jobs.filter(j => j.status === 'error' || j.status === 'stopped');
+  const errorCount = jobs.filter(j => j.status === 'error' || j.status === 'stopped').length;
 
   function formatTimeAgo(dateStr: string | null): string {
     if (!dateStr) return 'Never';
@@ -129,7 +127,7 @@ export default function CronHealth() {
         <div className="flex items-center gap-2 text-sm">
           <span className="text-emerald-400">{successCount} OK</span>
           <span className="text-zinc-600">|</span>
-          <span className="text-rose-400">{errorCount.length} Failed</span>
+          <span className="text-rose-400">{errorCount} Failed</span>
         </div>
       </div>
 
@@ -171,8 +169,8 @@ export default function CronHealth() {
         </div>
       )}
 
-      {/* Launchd Jobs - DEBUG: show count */}
-      {console.log('DEBUG: jobs count:', jobs.length, 'cron:', cronJobs.length, 'launchd:', launchdJobs.length) || launchdJobs.length > 0 ? (
+      {/* Launchd Jobs */}
+      {launchdJobs.length > 0 && (
         <div>
           <div className="flex items-center gap-2 mb-2">
             <Server className="w-4 h-4 text-zinc-500" />
