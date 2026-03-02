@@ -171,8 +171,8 @@ export default function CronHealth() {
         </div>
       )}
 
-      {/* Launchd Jobs */}
-      {launchdJobs.length > 0 && (
+      {/* Launchd Jobs - DEBUG: show count */}
+      {console.log('DEBUG: jobs count:', jobs.length, 'cron:', cronJobs.length, 'launchd:', launchdJobs.length) || launchdJobs.length > 0 ? (
         <div>
           <div className="flex items-center gap-2 mb-2">
             <Server className="w-4 h-4 text-zinc-500" />
@@ -187,7 +187,7 @@ export default function CronHealth() {
                 <div className="flex items-center gap-3">
                   {getStatusIcon(job.status)}
                   <div>
-                    <div className="text-sm font-medium text-white">{job.job_name.replace('launchd:', '')}</div>
+                    <div className="text-sm font-medium text-white">{job.job_name}</div>
                     <div className="text-xs text-zinc-500">{job.agent_id || 'system'}</div>
                   </div>
                 </div>
