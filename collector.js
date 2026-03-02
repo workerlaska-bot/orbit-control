@@ -11,6 +11,7 @@
 
 const ORBIT_CONTROL = process.env.ORBIT_CONTROL_URL || 'https://orbit-control-three.vercel.app';
 const RETENTION_DAYS = parseInt(process.env.RETENTION_DAYS || '7');
+const { execSync } = require('child_process');
 
 // Extract agent ID from session key, fallback to provided agentId
 function extractAgentId(key, agentId) {
@@ -26,8 +27,6 @@ function extractAgentId(key, agentId) {
 }
 
 async function fetchOpenClawData() {
-  const { execSync } = require('child_process');
-  
   const statusOutput = execSync('openclaw status --json', { encoding: 'utf8' });
   const status = JSON.parse(statusOutput);
   
@@ -66,6 +65,9 @@ async function collectAndPush() {
   try {
     const { status, cronData } = await fetchOpenClawData();
     
+    // Get contextTokens early
+    const contextTokens = status.sessions?.defaults?.contextTokens || 200000;
+    
     // Push sessions
     const sessions = status.sessions?.recent || [];
     const unique = new Map();
@@ -91,7 +93,6 @@ async function collectAndPush() {
     }
     
     // Push metrics - more detailed system metrics
-    const contextTokens = status.sessions?.defaults?.contextTokens || 200000;
     const activeSessions = sessions.filter(s => Date.now() - s.updatedAt < 3600000).length; // last hour
     
     const metrics = {
