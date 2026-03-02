@@ -35,7 +35,7 @@ export default function CronHealth() {
       const { data, error } = await supabase
         .from('cron_runs')
         .select('*')
-        .order('ran_at', { ascending: false })
+        .order('last_run_at', { ascending: false })
         .limit(20);
 
       if (error) throw error;
