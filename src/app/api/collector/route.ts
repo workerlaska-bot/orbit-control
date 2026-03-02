@@ -19,6 +19,8 @@ export async function POST(request: NextRequest) {
         return await handleLogs(payload);
       case 'cron':
         return await handleCron(payload);
+      case 'launchd':
+        return await handleLaunchd(payload);
       case 'metrics':
         return await handleMetrics(payload);
       case 'cleanup':
@@ -119,6 +121,30 @@ async function handleCron(cronData: any[]) {
   }));
 
   // Use upsert on job_id to update existing jobs
+  const { error } = await supabase
+    .from('cron_runs')
+    .upsert(records, { onConflict: 'job_id' });
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ success: true, count: records.length });
+}
+
+async function handleLaunchd(launchdData: any[]) {
+  // Launchd jobs - use same schema but with "launchd:" prefix in job_id
+  const records = launchdData.map(l => ({
+    job_id: `launchd:${l.label}`,
+    job_name: l.label,
+    agent_id: l.program || 'system',
+    status: l.status === 0 ? 'running' : 'stopped',
+    ran_at: new Date().toISOString(), // launchctl doesn't show last run time
+    next_run: l.schedule || null,
+    error_message: l.last_exit_code !== 0 ? `Exit code: ${l.last_exit_code}` : null,
+    duration_ms: null,
+  }));
+
   const { error } = await supabase
     .from('cron_runs')
     .upsert(records, { onConflict: 'job_id' });

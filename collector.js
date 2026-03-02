@@ -120,6 +120,26 @@ async function collectAndPush() {
       await pushToDashboard('cron', formattedCronJobs);
     }
     
+    // Push launchd jobs
+    const launchdOutput = execSync('launchctl list', { encoding: 'utf8' });
+    const launchdLines = launchdOutput.trim().split('\n').slice(1); // Skip header
+    const launchdJobs = launchdLines
+      .map(line => {
+        const parts = line.split('\t');
+        if (parts.length < 3) return null;
+        return {
+          label: parts[2]?.trim(),
+          pid: parts[0] === '-' ? null : parseInt(parts[0]),
+          status: parseInt(parts[1]) || 0,
+          last_exit_code: parseInt(parts[1]) || 0,
+        };
+      })
+      .filter(j => j && j.label && (j.label.startsWith('com.openclaw') || j.label.startsWith('ai.openclaw')));
+    
+    if (launchdJobs.length > 0) {
+      await pushToDashboard('launchd', launchdJobs);
+    }
+    
     // Push logs - create log entries from active sessions
     const logs = sessions.slice(0, 5).map(s => ({
       session_id: s.sessionId,
