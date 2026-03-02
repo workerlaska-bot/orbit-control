@@ -3,6 +3,7 @@ import AgentGrid from "@/components/AgentGrid";
 import TokenUsage from "@/components/TokenUsage";
 import LiveLogs from "@/components/LiveLogs";
 import CronHealth from "@/components/CronHealth";
+import ScheduledJobs from "@/components/ScheduledJobs";
 import SystemStats from "@/components/SystemStats";
 
 export default function Home() {
@@ -30,7 +31,7 @@ export default function Home() {
             </div>
             
             <div className="card card-hover">
-              <CronHealth />
+              <ScheduledJobs />
             </div>
           </div>
         </div>
