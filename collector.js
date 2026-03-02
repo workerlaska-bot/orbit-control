@@ -138,7 +138,18 @@ async function collectAndPush() {
       .filter(j => j && j.label && (j.label.startsWith('com.openclaw') || j.label.startsWith('ai.openclaw')));
     
     if (launchdJobs.length > 0) {
-      await pushToDashboard('launchd', launchdJobs);
+      // Push via cron endpoint with "launchd:" prefix in job_id
+      const launchdFormatted = launchdJobs.map(l => ({
+        id: `launchd:${l.label}`,
+        name: l.label.replace('launchd:', ''),
+        agent_id: l.label,
+        status: l.status === 0 ? 'running' : 'stopped',
+        last_run_at: new Date().toISOString(),
+        next_run_at: null,
+        error_message: l.last_exit_code !== 0 ? `Exit code: ${l.last_exit_code}` : null,
+        duration_ms: null,
+      }));
+      await pushToDashboard('cron', launchdFormatted);
     }
     
     // Push logs - create log entries from active sessions
